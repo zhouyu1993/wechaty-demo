@@ -58,39 +58,8 @@ bot.on('login', async contactSelf => {
     botInfo.avatarName = avatarName
 
     const message = `${botInfo.name} login`
-    console.log(message)
 
-    // const filehelper = bot.Contact.load('filehelper')
-    //
-    // if (filehelper) {
-    //   await filehelper.say(message)
-    // }
-    //
-    // setTimeout(async () => {
-    //   const contactFindByName = await bot.Contact.find({
-    //     name: botInfo.contactName
-    //   })
-    //
-    //   if (contactFindByName) {
-    //     await contactFindByName.say(message)
-    //   } else {
-    //     const contactFindByAlias = await bot.Contact.find({
-    //       alias: botInfo.contactAlias
-    //     })
-    //
-    //     if (contactFindByAlias) {
-    //       await contactFindByAlias.say(message)
-    //     }
-    //   }
-    //
-    //   const room = await bot.Room.find({
-    //     topic: botInfo.roomTopic
-    //   })
-    //
-    //   if (room) {
-    //     await room.say(message)
-    //   }
-    // }, 3000)
+    console.log(message)
   } catch (e) {
     console.error('catch:', e)
   }
@@ -139,6 +108,15 @@ bot.on('message', async message => {
           })
 
           reply = `欢迎【${userName}】👏👏`
+        } else if (/"(.*?)"通过扫描/.test(messageText)) {
+          let userName = ''
+          messageText.replace(/(?<=").*?(?="通过扫描)/, function (value) {
+          	userName = value
+
+          	return value
+          })
+
+          reply = `欢迎【${userName}】👏👏`
         } else if (/^你将"(.*?)"移出了群聊/.test(messageText)) {
           reply = '已踢😠😠'
         }
@@ -161,18 +139,18 @@ bot.on('message', async message => {
 
           if (room) {
             const memberList = await room.memberList()
-            
+
             for (let i = 0; i < memberList.length; i++) {
               const contact = memberList[i]
 
               const isFriend = contact.friend()
 
               if (!isFriend) {
-                console.log('添加contact', contact)
+                console.log('添加contact: ', contact)
 
                 const res = await bot.Friendship.add(contact, `Nice to meet you! I am ${botInfo.name}!`)
 
-                console.log('啦啦啦', res)
+                console.log('添加contact: ', res)
               }
             }
           }
