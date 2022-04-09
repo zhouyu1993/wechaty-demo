@@ -23,7 +23,7 @@
   "homepage": "https://github.com/zhouyu1993/wechaty-demo#readme",
   "dependencies": {
     "file-box": "^0.8.27",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "qrcode-terminal": "^0.12.0",
     "wechaty": "^0.22.6"
   },
